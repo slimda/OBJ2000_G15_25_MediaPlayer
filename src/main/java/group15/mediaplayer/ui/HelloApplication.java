@@ -1,4 +1,4 @@
-package group15.mediaplayer;
+package group15.mediaplayer.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

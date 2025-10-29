@@ -1,5 +1,6 @@
 package group15.mediaplayer;
 
+import group15.mediaplayer.ui.HelloApplication;
 import javafx.application.Application;
 
 public class Launcher {

@@ -1,4 +1,4 @@
-package group15.mediaplayer;
+package group15.mediaplayer.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
