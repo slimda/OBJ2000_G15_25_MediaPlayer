@@ -15,5 +15,6 @@ public class PlayerController {
     // stop
     // volume up
     // volume down
+    // mute
 
 }
