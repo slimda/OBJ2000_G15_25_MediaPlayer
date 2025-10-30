@@ -9,4 +9,11 @@
 package group15.mediaplayer.controller;
 
 public class PlayerController {
+    // metoder
+    // play
+    // pause
+    // stop
+    // volume up
+    // volume down
+
 }
