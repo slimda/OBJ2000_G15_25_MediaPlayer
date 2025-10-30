@@ -13,8 +13,6 @@ public class PlayerController {
     // play
     // pause
     // stop
-    // volume up
-    // volume down
-    // mute
+
 
 }
