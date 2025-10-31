@@ -21,7 +21,7 @@ public class PlayerController {
 
     @FXML
     private void handleOk() {
-        if (userField.getText().equals("") || passwordField.getText().equals("")) {
+        if (userField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             System.out.println("Please write both username and password");
         }
         else {
