@@ -51,7 +51,7 @@
             <right>
                 <HBox>
                     <Button fx:id="shuffleButton" />
-                    <Button fx:id="repeatbutton" />
+                    <Button fx:id="repeatButton" />
                 </HBox>
             </right>
         </BorderPane>

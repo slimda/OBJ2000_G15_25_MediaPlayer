@@ -27,5 +27,5 @@ public class PlayerController {
     @FXML private Button stopButton;
     @FXML private Button nextButton;
     @FXML private Button shuffleButton;
-    @FXML private Button repeatbutton;
+    @FXML private Button repeatButton;
 }
