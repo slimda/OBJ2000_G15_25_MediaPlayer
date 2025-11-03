@@ -1,3 +1,5 @@
+package group15.mediaplayer.model;
+
 import java.util.ArrayList;
 import java.util.List;
 
