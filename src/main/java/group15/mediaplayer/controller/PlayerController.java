@@ -9,30 +9,23 @@
 package group15.mediaplayer.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class PlayerController {
     @FXML private TextArea playerDisplay;
     @FXML private TextField playerMeta;
-
-    @FXML private TextField userField;
-    @FXML private TextField passwordField;
-
-    @FXML
-    private void handleOk() {
-        if (userField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            System.out.println("Please write both username and password");
-        }
-        else {
-            System.out.println("Username: " + userField.getText());
-            System.out.println("Password: " + passwordField.getText());
-        }
-    }
-
-    @FXML
-    private void handleCancel() {
-        userField.setText("");
-        passwordField.setText("");
-    }
+    @FXML private Slider volumeSlider;
+    @FXML private Button equalizerButton;
+    @FXML private Button playlistButton;
+    @FXML private Slider progressSlider;
+    @FXML private Button previousButton;
+    @FXML private Button playButton;
+    @FXML private Button pauseButton;
+    @FXML private Button stopButton;
+    @FXML private Button nextButton;
+    @FXML private Button shuffleButton;
+    @FXML private Button repeatbutton;
 }
