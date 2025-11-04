@@ -8,6 +8,7 @@
 
 package group15.mediaplayer.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -28,4 +29,40 @@ public class PlayerController {
     @FXML private Button nextButton;
     @FXML private Button shuffleButton;
     @FXML private Button repeatButton;
+
+    @FXML
+    public void handlePreviousAction(ActionEvent e) {
+//        PreviousButtonController.handlePlay();
+    }
+
+    @FXML
+    public void handlePlayAction(ActionEvent e) {
+//        PlayButtonController.handlePlay();
+    }
+
+    @FXML
+    public void handlePauseAction(ActionEvent e) {
+//        PauseButtonController.handlePause();
+    }
+
+    @FXML
+    public void handleStopAction(ActionEvent e) {
+//        StopButtonController.handleStop();
+    }
+
+    @FXML
+    public void handleNextAction(ActionEvent e) {
+//        NextButtonController.handleNext();
+    }
+
+    @FXML
+    public void handleShuffleAction(ActionEvent e) {
+//        ShuffleButtonController.handleShuffle();
+    }
+
+    @FXML
+    public void handleRepeatAction(ActionEvent e) {
+//        RepeatButtonController.handleRepeat();
+    }
+
 }

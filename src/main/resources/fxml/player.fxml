@@ -27,8 +27,12 @@
                         <Slider fx:id="volumeSlider" />
                     </left>
                     <right>
-                        <Button fx:id="equalizerButton" text="EQ"/>
-                        <Button fx:id="playlistButton" text="PL"/>
+                        <HBox>
+                            <Button fx:id="equalizerButton"
+                                    text="EQ"/>
+                            <Button fx:id="playlistButton"
+                                    text="PL"/>
+                        </HBox>
                     </right>
                 </BorderPane>
             </right>
@@ -41,17 +45,31 @@
         <BorderPane>
             <left>
                 <HBox>
-                    <Button fx:id="previousButton" text=" ▐◄"/>
-                    <Button fx:id="playButton" text=" ► "/>
-                    <Button fx:id="pauseButton" text="▐▐ "/>
-                    <Button fx:id="stopButton" text=" ■ "/>
-                    <Button fx:id="nextButton" text="►▌ "/>
+                    <Button fx:id="previousButton"
+                            text=" ▐◄"
+                            onAction="#handlePreviousAction" />
+                    <Button fx:id="playButton"
+                            text=" ► "
+                            onAction="#handlePlayAction" />
+                    <Button fx:id="pauseButton"
+                            text="▐▐ "
+                            onAction="#handlePauseAction" />
+                    <Button fx:id="stopButton"
+                            text=" ■ "
+                            onAction="#handleStopAction" />
+                    <Button fx:id="nextButton"
+                            text="►▌ "
+                            onAction="#handleNextAction" />
                 </HBox>
             </left>
             <right>
                 <HBox>
-                    <Button fx:id="shuffleButton" />
-                    <Button fx:id="repeatButton" />
+                    <Button fx:id="shuffleButton"
+                            text="Shuffle"
+                            onAction="#handleShuffleAction"/>
+                    <Button fx:id="repeatButton"
+                            text="Repeat"
+                            onAction="#handleRepeatAction"/>
                 </HBox>
             </right>
         </BorderPane>

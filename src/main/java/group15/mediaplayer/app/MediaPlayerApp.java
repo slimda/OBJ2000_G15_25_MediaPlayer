@@ -16,7 +16,7 @@ public class MediaPlayerApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/player.fxml"));
-        stage.setScene(new Scene(root, 400, 200));
+        stage.setScene(new Scene(root, 550, 232));
         stage.setTitle("Media Player");
         stage.setResizable(false);
         stage.show();
