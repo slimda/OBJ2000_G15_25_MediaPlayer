@@ -18,12 +18,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.14</version>
+            <version>25.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.14</version>
+            <version>25.0.1</version>
         </dependency>
 
         <dependency>
@@ -60,7 +60,10 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>group15.mediaplayer/group15.mediaplayer.ui.HelloApplication</mainClass>
+                            <mainClass>group15.mediaplayer.launcher.Launcher</mainClass>
+                            <jvmArgs>
+                                <jvmArg>--enable-native-access=javafx.graphics</jvmArg>
+                            </jvmArgs>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

@@ -8,9 +8,61 @@
 
 package group15.mediaplayer.controller;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
 public class PlayerController {
-    // metoder
-    // play
-    // pause
-    // stop
+    @FXML private TextArea playerDisplay;
+    @FXML private TextField playerMeta;
+    @FXML private Slider volumeSlider;
+    @FXML private Button equalizerButton;
+    @FXML private Button playlistButton;
+    @FXML private Slider progressSlider;
+    @FXML private Button previousButton;
+    @FXML private Button playButton;
+    @FXML private Button pauseButton;
+    @FXML private Button stopButton;
+    @FXML private Button nextButton;
+    @FXML private Button shuffleButton;
+    @FXML private Button repeatButton;
+
+    @FXML
+    public void handlePreviousAction(ActionEvent e) {
+//        PreviousButtonController.handlePlay();
+    }
+
+    @FXML
+    public void handlePlayAction(ActionEvent e) {
+//        PlayButtonController.handlePlay();
+    }
+
+    @FXML
+    public void handlePauseAction(ActionEvent e) {
+//        PauseButtonController.handlePause();
+    }
+
+    @FXML
+    public void handleStopAction(ActionEvent e) {
+//        StopButtonController.handleStop();
+    }
+
+    @FXML
+    public void handleNextAction(ActionEvent e) {
+//        NextButtonController.handleNext();
+    }
+
+    @FXML
+    public void handleShuffleAction(ActionEvent e) {
+//        ShuffleButtonController.handleShuffle();
+    }
+
+    @FXML
+    public void handleRepeatAction(ActionEvent e) {
+//        RepeatButtonController.handleRepeat();
+    }
+
 }
