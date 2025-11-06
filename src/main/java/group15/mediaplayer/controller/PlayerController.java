@@ -8,14 +8,21 @@
 
 package group15.mediaplayer.controller;
 
+import group15.mediaplayer.service.FileService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class PlayerController {
+
+    static Media media = new Media(FileService.getMediaUrl());
+    static MediaPlayer mediaPlayer = new MediaPlayer(media);
+
     @FXML private TextArea playerDisplay;
     @FXML private TextField playerMeta;
     @FXML private Slider volumeSlider;
@@ -37,7 +44,7 @@ public class PlayerController {
 
     @FXML
     public void handlePlayAction(ActionEvent e) {
-//        PlayButtonController.handlePlay();
+        PlayButtonController.handlePlay();
     }
 
     @FXML
@@ -64,5 +71,7 @@ public class PlayerController {
     public void handleRepeatAction(ActionEvent e) {
 //        RepeatButtonController.handleRepeat();
     }
+
+
 
 }

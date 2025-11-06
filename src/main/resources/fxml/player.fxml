@@ -46,30 +46,31 @@
             <left>
                 <HBox>
                     <Button fx:id="previousButton"
-                            text=" ▐◄"
+                            text="⏮"
                             onAction="#handlePreviousAction" />
                     <Button fx:id="playButton"
-                            text=" ► "
+                            text="▶"
                             onAction="#handlePlayAction" />
                     <Button fx:id="pauseButton"
-                            text="▐▐ "
+                            text="⏸"
                             onAction="#handlePauseAction" />
                     <Button fx:id="stopButton"
-                            text=" ■ "
+                            text="⏹"
                             onAction="#handleStopAction" />
                     <Button fx:id="nextButton"
-                            text="►▌ "
+                            text="⏭"
                             onAction="#handleNextAction" />
                 </HBox>
             </left>
             <right>
                 <HBox>
                     <Button fx:id="shuffleButton"
-                            text="Shuffle"
+                            text="🔀"
                             onAction="#handleShuffleAction"/>
                     <Button fx:id="repeatButton"
-                            text="Repeat"
+                            text="🔁"
                             onAction="#handleRepeatAction"/>
+                            <!-- 🔂 -->
                 </HBox>
             </right>
         </BorderPane>
