@@ -1,6 +1,5 @@
 package group15.mediaplayer.controller;
-import javafx.application.Application;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
