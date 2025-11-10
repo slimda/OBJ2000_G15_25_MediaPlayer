@@ -72,6 +72,15 @@ public class PlayerController {
 //        RepeatButtonController.handleRepeat();
     }
 
+    @FXML
+    public void handleEqualizerAction(ActionEvent e) {
+
+    }
+
+    @FXML
+    public void handleVolumeChange(ActionEvent e) {
+
+    }
 
 
 }
