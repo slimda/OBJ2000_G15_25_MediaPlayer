@@ -1,36 +1,38 @@
 package group15.mediaplayer.controller;
 
+/**
+ * Purpose: Manages a volume slider UI component.
+ *
+ * Role: Allows users to adjust the media player's volume and displays the current volume level.
+ */
+
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import java.util.*;
+import javafx.scene.media.MediaPlayer;
 
 public class VolumeSliderController {
 
-    public void start(Stage stage){
+    private Slider volumeSlider;
+    private Label volumeLabel;
+    private VBox volumeControl;
 
-    //slider
-    Slider slider = new Slider();
-    slider.setMin(0);       // minste verdi
-    slider.setMax(100);     //max verdier
-    slider.setValue(50);    //value
-    slider.setShowTickLabels(true); //viser markeringer
-    slider.setShowTickMarks(true);  //viser hakker
-    slider.setMajorTickUnit(10); //afstanden mellom større hakker
-    slider.setMinorTickCount(5); // antallet af mindre hakker mellom
-    slider.setSnapToTicks(true); //Snapper til hakkerne
+    public static void configureVolumeSlider(Slider volumeSlider, MediaPlayer mediaPlayer) {
 
-    //Opretter en label til at vise sliderens verdi
-    Label valueLabel = new Label("Verdi" + slider.getValue());
+        volumeSlider.setMin(0);
+        volumeSlider.setMax(100);
+        volumeSlider.setValue(50);
+        volumeSlider.setShowTickLabels(true);
+        volumeSlider.setShowTickMarks(true);
+        volumeSlider.setMajorTickUnit(10);
+        volumeSlider.setMinorTickCount(5);
+        volumeSlider.setSnapToTicks(true);
 
-    //tilføere en lytter til at viser sliderens verdie
-    slider.valueProperty().addListener((observable, oldValue, newValue)->
-    {valueLabel.setText("Verdi" + newValue.intValue());
-    });
-// tilføer slideren og labelen til layoutet
-        VBox vbox = new VBox(10, slider, valueLabel);
-        vbox.setStyle("-fx-padding: 20; -fx-alignment: center;");
+        volumeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
+            mediaPlayer.setVolume(newVal.doubleValue() / 100.0);
+        });
 
-
-}}
+        mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+    }
+}

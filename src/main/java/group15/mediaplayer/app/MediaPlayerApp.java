@@ -6,10 +6,13 @@
 
 package group15.mediaplayer.app;
 
+import group15.mediaplayer.controller.VolumeSliderController;
+import group15.mediaplayer.controller.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MediaPlayerApp extends Application {
@@ -20,5 +23,6 @@ public class MediaPlayerApp extends Application {
         stage.setTitle("Media Player");
         stage.setResizable(false);
         stage.show();
-    }
-}
+
+
+}}
