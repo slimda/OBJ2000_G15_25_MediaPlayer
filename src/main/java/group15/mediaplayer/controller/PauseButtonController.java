@@ -5,6 +5,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class PauseButtonController {
+
     public static void handlePause() {
         PlayerController.mediaPlayer.pause();
     }

@@ -1,9 +1,7 @@
-/**
+/*
  * Purpose: Handles playback controls (Play, Pause, Stop, Volume).
- *
- * Role: Responds to button clicks and slider changes in player.fxml.
- *
- * Typical logic: Connects to MediaPlayer, updates UI state, handles events.
+  * Role: Responds to button clicks and slider changes in player.fxml.
+  * Typical logic: Connects to MediaPlayer, updates UI state, handles events.
  */
 
 package group15.mediaplayer.controller;
@@ -21,33 +19,34 @@ import javafx.scene.media.MediaPlayer;
 
 public class PlayerController {
 
-
-    static Media media = new Media(FileService.getMediaUrl("sample.mp3"));
-    static MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-    @FXML private TextArea playerDisplay;
-    @FXML private TextField playerMeta;
-
     @FXML private Button equalizerButton;
     @FXML private Button playlistButton;
     @FXML private Slider progressSlider;
     @FXML private Button previousButton;
     @FXML private Button playButton;
-    @FXML private Button pauseButton;
-    @FXML private Button stopButton;
     @FXML private Button nextButton;
     @FXML private Button shuffleButton;
     @FXML private Button repeatButton;
 
+    // koble til sånn kan se hvilken sang som spiller
+    @FXML private TextField playerMeta;
 
+    @FXML private TextArea playerDisplay;
     @FXML private Slider volumeSlider;
-    @FXML
+
+    public static Media media;
+    public static MediaPlayer mediaPlayer;
+
+        @FXML
     public void initialize() {
-        VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-    }
+            // Initialiser Media og MediaPlayer
+            media = new Media(FileService.getMediaUrl("Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp3"));
+            mediaPlayer = new MediaPlayer(media);
+            // Konfigurer volum-slider
+            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+        }
 
-
-    @FXML
+         @FXML
     public void handlePreviousAction(ActionEvent e) {
 //        PreviousButtonController.handlePlay();
     }
@@ -57,11 +56,13 @@ public class PlayerController {
         PlayButtonController.handlePlay();
     }
 
+    @FXML private Button pauseButton;
     @FXML
     public void handlePauseAction(ActionEvent e) {
         PauseButtonController.handlePause();
     }
 
+    @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
      StopButtonController.handleStop();
@@ -86,7 +87,5 @@ public class PlayerController {
     public void handleEqualizerAction(ActionEvent e) {
 
     }
-
-
 
 }

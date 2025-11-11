@@ -1,46 +1,43 @@
-/**
- * Purpose: Extracts metadata from media files.
- *
- * Role: Uses libraries or built-in JavaFX features to read tags, duration, etc.
- *  Laster metadata fra en mediefil og returnerer et Track-objekt via callback.
- * @ param mediaUrl URL til mediefilen (fra FileService)
- *  @ param onReady Callback som mottar ferdig utfylt Track
- *
+/*
+Purpose: Extracts metadata from media files.
+ * Role: Uses libraries or built-in JavaFX features to read tags, duration, etc
  */
-
 package group15.mediaplayer.service;
 
-import group15.mediaplayer.model.Track;
-import javafx.application.Platform;
+import group15.mediaplayer.model.Metadata;
 import javafx.collections.MapChangeListener;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-import java.util.Map;
-import java.util.function.Consumer;
 
 public class MetadataService {
 
+    // Metode for å hente metadata fra en Media-fil
+    public static Metadata extractMetadata(Media media) {
+        // Opprett et Metadata-objekt med standardverdier
+        Metadata metadata = new Metadata("Unknown Title", "Unknown Artist", 0);
 
-    public static void loadTrack(String mediaUrl, Consumer<Track> onReady) {
-        Media media = new Media(mediaUrl);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        Track track = new Track(mediaUrl);
-
+        // Lytt til metadata-endringer (tittel, artist, album osv.)
         media.getMetadata().addListener((MapChangeListener<String, Object>) change -> {
             if (change.wasAdded()) {
-                Map<String, Object> metadata = media.getMetadata();
-                track.setTitle((String) metadata.getOrDefault("title", "Ukjent tittel"));
-                track.setArtist((String) metadata.getOrDefault("artist", "Ukjent artist"));
-                track.setAlbum((String) metadata.getOrDefault("album", "Ukjent album"));
-                track.setGenre((String) metadata.getOrDefault("genre", "Ukjent sjanger"));
-                track.setYear((String) metadata.getOrDefault("year", "Ukjent år"));
+                String key = change.getKey();
+                Object value = change.getValueAdded();
+
+                // Sjekk hvilken type metadata som er tilgjengelig
+                switch (key.toLowerCase()) {
+                    case "title":
+                        metadata.setTitle(value.toString());
+                        break;
+                    case "artist":
+                        metadata.setArtist(value.toString());
+                        break;
+                }
             }
         });
 
-        mediaPlayer.setOnReady(() -> {
-            track.setDuration(media.getDuration().toSeconds());
-            Platform.runLater(() -> onReady.accept(track));
+        /* Når media er klar, sett varigheten i sekunder
+       // media.setOnReady(() -> {
+            metadata.setDuration(media.getDuration().toSeconds());
         });
-    }
-}
+*/
+        return metadata;
+
+} }

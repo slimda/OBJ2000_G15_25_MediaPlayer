@@ -13,6 +13,15 @@ import java.util.List;
 
 public class FileService {
 
+    public static String getMediaUrl(String filename) {
+        URL resource = FileService.class.getResource("/audio/" + filename);
+        if (resource != null) {
+            return resource.toExternalForm();
+        } else {
+            throw new IllegalArgumentException("Finner ikke filen: " + filename);
+        }
+    }
+
     public static List<String> getAudioFiles() {
         List<String> audioFiles = new ArrayList<>();
         URL resource = FileService.class.getResource("/audio");
@@ -26,14 +35,5 @@ public class FileService {
             }
         }
         return audioFiles;
-    }
-
-    public static String getMediaUrl(String filename) {
-        URL resource = FileService.class.getResource("/audio/" + filename);
-        if (resource != null) {
-            return resource.toExternalForm();
-        } else {
-            throw new IllegalArgumentException("Finner ikke filen: " + filename);
-        }
     }
 }

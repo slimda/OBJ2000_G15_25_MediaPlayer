@@ -1,24 +1,17 @@
-package group15.mediaplayer.controller;
-
 /**
  * Purpose: Manages a volume slider UI component.
- *
  * Role: Allows users to adjust the media player's volume and displays the current volume level.
  */
+package group15.mediaplayer.controller;
 
-
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 
 public class VolumeSliderController {
 
-    private Slider volumeSlider;
-    private Label volumeLabel;
-    private VBox volumeControl;
-
+    // Setter opp slider og kobler den til MediaPlayer
     public static void configureVolumeSlider(Slider volumeSlider, MediaPlayer mediaPlayer) {
+        if (volumeSlider == null || mediaPlayer == null) return;
 
         volumeSlider.setMin(0);
         volumeSlider.setMax(100);
@@ -29,10 +22,19 @@ public class VolumeSliderController {
         volumeSlider.setMinorTickCount(5);
         volumeSlider.setSnapToTicks(true);
 
+        // Oppdaterer volum når slider endres
         volumeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
             mediaPlayer.setVolume(newVal.doubleValue() / 100.0);
         });
 
+        // Setter initialt volum
         mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+    }
+
+    // Setter volum direkte til 50%
+    public static void handleVolume(MediaPlayer mediaPlayer) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(0.5);
+        }
     }
 }
