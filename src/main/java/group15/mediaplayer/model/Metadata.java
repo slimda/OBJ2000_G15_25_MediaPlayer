@@ -11,7 +11,14 @@ public class Metadata {
     private String artist;
     private double duration; // sekunder
 
-    // Konstruktør
+    // Standardkonstruktør (tom konstruktør)
+    public Metadata() {
+        this.title = "Unknown Title";
+        this.artist = "Unknown Artist";
+        this.duration = 0.0;
+    }
+
+    // Parameterisert konstruktør
     public Metadata(String title, String artist, double duration) {
         this.title = title;
         this.artist = artist;
@@ -45,6 +52,8 @@ public class Metadata {
 
     @Override
     public String toString() {
-        return "Title: " + title + "\nArtist: " + artist + "\nDuration: " + duration + " seconds";
+        return "Title: " + title +
+                "\nArtist: " + artist +
+                "\nDuration: " + duration + " seconds";
     }
 }

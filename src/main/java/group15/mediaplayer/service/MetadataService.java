@@ -7,11 +7,12 @@ package group15.mediaplayer.service;
 import group15.mediaplayer.model.Metadata;
 import javafx.collections.MapChangeListener;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class MetadataService {
 
     // Metode for å hente metadata fra en Media-fil
-    public static Metadata extractMetadata(Media media) {
+    public static Metadata extractMetadata(Media media, MediaPlayer mediaPlayer) {
         // Opprett et Metadata-objekt med standardverdier
         Metadata metadata = new Metadata("Unknown Title", "Unknown Artist", 0);
 
@@ -33,11 +34,13 @@ public class MetadataService {
             }
         });
 
-        /* Når media er klar, sett varigheten i sekunder
-       // media.setOnReady(() -> {
-            metadata.setDuration(media.getDuration().toSeconds());
+        // Lytt til statusen til MediaPlayer for å få varigheten
+        mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == MediaPlayer.Status.READY) {
+                metadata.setDuration(media.getDuration().toSeconds());
+            }
         });
-*/
-        return metadata;
 
-} }
+        return metadata;
+    }
+}

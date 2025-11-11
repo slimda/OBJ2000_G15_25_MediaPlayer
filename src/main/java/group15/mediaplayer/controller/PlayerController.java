@@ -13,9 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import group15.mediaplayer.model.Metadata;
+import group15.mediaplayer.service.MetadataService;
+
 
 public class PlayerController {
 
@@ -42,6 +44,31 @@ public class PlayerController {
             // Initialiser Media og MediaPlayer
             media = new Media(FileService.getMediaUrl("Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp3"));
             mediaPlayer = new MediaPlayer(media);
+            // Prøv å laste inn en lydfil og oppdater metadata
+            try {
+                // Hent URL til en lydfil
+                String mediaUrl = FileService.getMediaUrl("sample.mp3");
+                Media media = new Media(mediaUrl);
+
+                // Opprett MediaPlayer
+
+                // Hent metadata når MediaPlayer er klar
+                Metadata metadata = MetadataService.extractMetadata(media, mediaPlayer);
+
+                // Lytt til statusendringer i MediaPlayer
+                mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue == MediaPlayer.Status.READY) {
+                        // Oppdater UI med metadata
+                        playerMeta.setText("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
+                        System.out.println("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
+                    }
+                });
+
+            } catch (Exception e) {
+                // Håndter feil
+                playerMeta.setText("Kunne ikke laste inn lydfilen.");
+                e.printStackTrace(); }
+
             // Konfigurer volum-slider
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
         }
