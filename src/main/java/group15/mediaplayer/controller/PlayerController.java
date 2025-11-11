@@ -112,7 +112,8 @@ public class PlayerController {
 
     @FXML
     public void handleEqualizerAction(ActionEvent e) {
-        EqualizerButtonAction.handle();
+        // Use VolumeSliderController to handle equalizer toggle (mute toggle as placeholder)
+        VolumeSliderController.handleEqualizerAction();
     }
 
 }
