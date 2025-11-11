@@ -1,12 +1,13 @@
+package group15.mediaplayer.controller.actions;
+
+import javafx.scene.control.Slider;
+import javafx.scene.media.MediaPlayer;
+import group15.mediaplayer.controller.PlayerController;
+
 /**
  * Purpose: Manages a volume slider UI component.
  * Role: Allows users to adjust the media player's volume and displays the current volume level.
  */
-package group15.mediaplayer.controller;
-
-import javafx.scene.control.Slider;
-import javafx.scene.media.MediaPlayer;
-
 public class VolumeSliderController {
 
     // Setter opp slider og kobler den til MediaPlayer
@@ -36,5 +37,17 @@ public class VolumeSliderController {
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(0.5);
         }
+    }
+
+    // Toggle equalizer-like behavior: here we toggle mute as a simple placeholder
+    public static void handleEqualizerAction() {
+        MediaPlayer mp = PlayerController.mediaPlayer;
+        if (mp == null) {
+            System.out.println("Ingen MediaPlayer tilgjengelig for equalizer-handling.");
+            return;
+        }
+        boolean currentlyMuted = mp.isMute();
+        mp.setMute(!currentlyMuted);
+        System.out.println("Equalizer action: mute set to " + !currentlyMuted);
     }
 }

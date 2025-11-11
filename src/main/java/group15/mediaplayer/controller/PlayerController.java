@@ -17,6 +17,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import group15.mediaplayer.model.Metadata;
 import group15.mediaplayer.service.MetadataService;
+import group15.mediaplayer.controller.actions.*;
 
 
 public class PlayerController {
@@ -39,79 +40,79 @@ public class PlayerController {
     public static Media media;
     public static MediaPlayer mediaPlayer;
 
-        @FXML
+    @FXML
     public void initialize() {
+        try {
             // Initialiser Media og MediaPlayer
             media = new Media(FileService.getMediaUrl("Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp3"));
             mediaPlayer = new MediaPlayer(media);
-            // Prøv å laste inn en lydfil og oppdater metadata
-            try {
-                // Hent URL til en lydfil
-                String mediaUrl = FileService.getMediaUrl("sample.mp3");
-                Media media = new Media(mediaUrl);
 
-                // Opprett MediaPlayer
+            // Hent URL til en lydfil og opprett et Media-objekt for metadata
+            String mediaUrl = FileService.getMediaUrl("sample.mp3");
+            Media sampleMedia = new Media(mediaUrl);
 
-                // Hent metadata når MediaPlayer er klar
-                Metadata metadata = MetadataService.extractMetadata(media, mediaPlayer);
+            // Hent metadata når MediaPlayer er klar
+            Metadata metadata = MetadataService.extractMetadata(sampleMedia, mediaPlayer);
 
-                // Lytt til statusendringer i MediaPlayer
-                mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue == MediaPlayer.Status.READY) {
-                        // Oppdater UI med metadata
-                        playerMeta.setText("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
-                        System.out.println("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
-                    }
-                });
+            // Lytt til statusendringer i MediaPlayer
+            mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue == MediaPlayer.Status.READY) {
+                    // Oppdater UI med metadata
+                    playerMeta.setText("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
+                    System.out.println("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
+                }
+            });
 
-            } catch (Exception e) {
-                // Håndter feil
-                playerMeta.setText("Kunne ikke laste inn lydfilen.");
-                e.printStackTrace();
             // Konfigurer volum-slider
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-        }}
 
-         @FXML
+        } catch (Exception e) {
+            // Håndter feil
+            playerMeta.setText("Kunne ikke laste inn lydfilen.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void handlePreviousAction(ActionEvent e) {
-//        PreviousButtonController.handlePlay();
+        PreviousButtonAction.handle();
     }
 
     @FXML
     public void handlePlayAction(ActionEvent e) {
-        PlayButtonController.handlePlay();
+        PlayButtonAction.handle();
     }
 
     @FXML private Button pauseButton;
     @FXML
     public void handlePauseAction(ActionEvent e) {
-        PauseButtonController.handlePause();
+        PauseButtonAction.handle();
     }
 
     @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
-     StopButtonController.handleStop();
+        StopButtonAction.handle();
     }
 
     @FXML
     public void handleNextAction(ActionEvent e) {
-//        NextButtonController.handleNext();
+        NextButtonAction.handle();
     }
 
     @FXML
     public void handleShuffleAction(ActionEvent e) {
-//        ShuffleButtonController.handleShuffle();
+        ShuffleButtonAction.handle();
     }
 
     @FXML
     public void handleRepeatAction(ActionEvent e) {
-//        RepeatButtonController.handleRepeat();
+        RepeatButtonAction.handle();
     }
 
     @FXML
     public void handleEqualizerAction(ActionEvent e) {
-
+        EqualizerButtonAction.handle();
     }
 
 }
