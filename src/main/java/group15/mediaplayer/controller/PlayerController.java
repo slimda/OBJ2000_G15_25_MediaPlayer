@@ -75,39 +75,40 @@ public class PlayerController {
 
     @FXML
     public void handlePreviousAction(ActionEvent e) {
-        PreviousButtonAction.handle();
+        PreviousButtonController.handle();
     }
 
     @FXML
     public void handlePlayAction(ActionEvent e) {
-        PlayButtonAction.handle();
+        PlayButtonController.handle();
     }
 
     @FXML private Button pauseButton;
     @FXML
     public void handlePauseAction(ActionEvent e) {
-        PauseButtonAction.handle();
+        PauseButtonController.handlePause();
+
     }
 
     @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
-        StopButtonAction.handle();
+        StopButtonController.handle();
     }
 
     @FXML
     public void handleNextAction(ActionEvent e) {
-        NextButtonAction.handle();
+        NextButtonController.handle();
     }
 
     @FXML
     public void handleShuffleAction(ActionEvent e) {
-        ShuffleButtonAction.handle();
+        ShuffleButtonController.handle();
     }
 
     @FXML
     public void handleRepeatAction(ActionEvent e) {
-        RepeatButtonAction.handle();
+        RepeatButtonController.handle();
     }
 
     @FXML
