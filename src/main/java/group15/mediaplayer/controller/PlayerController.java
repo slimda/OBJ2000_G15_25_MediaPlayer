@@ -21,7 +21,8 @@ import javafx.scene.media.MediaPlayer;
 
 public class PlayerController {
 
-    static Media media = new Media(FileService.getMediaUrl());
+
+    static Media media = new Media(FileService.getMediaUrl("sample.mp3"));
     static MediaPlayer mediaPlayer = new MediaPlayer(media);
 
     @FXML private TextArea playerDisplay;
@@ -40,12 +41,10 @@ public class PlayerController {
 
 
     @FXML private Slider volumeSlider;
-
     @FXML
     public void initialize() {
         VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
     }
-
 
 
     @FXML
@@ -87,5 +86,7 @@ public class PlayerController {
     public void handleEqualizerAction(ActionEvent e) {
 
     }
+
+
 
 }
