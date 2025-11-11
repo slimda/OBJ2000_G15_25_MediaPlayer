@@ -67,11 +67,10 @@ public class PlayerController {
             } catch (Exception e) {
                 // Håndter feil
                 playerMeta.setText("Kunne ikke laste inn lydfilen.");
-                e.printStackTrace(); }
-
+                e.printStackTrace();
             // Konfigurer volum-slider
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-        }
+        }}
 
          @FXML
     public void handlePreviousAction(ActionEvent e) {
