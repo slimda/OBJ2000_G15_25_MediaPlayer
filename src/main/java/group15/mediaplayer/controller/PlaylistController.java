@@ -1,10 +1,9 @@
-/**
- * Purpose: Manages playlist interactions (add/remove tracks, reorder).
- *
- * Role: Binds to a ListView or TableView, updates the model, handles selection.
- */
-
 package group15.mediaplayer.controller;
 
+import javafx.scene.control.ListView;
+
 public class PlaylistController {
+    public static void setup(ListView<String> listView) {
+        listView.getItems().addAll("Song 1", "Song 2", "Song 3");
+    }
 }
