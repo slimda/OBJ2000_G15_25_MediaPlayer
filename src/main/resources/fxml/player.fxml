@@ -4,6 +4,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+
 
 <?import javafx.scene.layout.HBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
@@ -12,11 +15,8 @@
     <top>
         <BorderPane>
             <left>
-                <TextArea fx:id="playerDisplay"
-                          promptText="No song playing..."
-                          prefRowCount="2"
-                          prefColumnCount="10" />
-            </left>
+    <ListView fx:id="playlistView" prefWidth="200" />
+    </left>
             <right>
                 <BorderPane>
                     <top>

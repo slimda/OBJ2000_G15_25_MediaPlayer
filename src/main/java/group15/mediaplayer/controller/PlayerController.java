@@ -90,7 +90,9 @@ public class PlayerController {
 
     @FXML
     public void initialize() {
-        PlaylistController.setup(playlistView);
+        if (playlistView != null) {
+            PlaylistController.setup(playlistView);
+        }
     }
 
 }
