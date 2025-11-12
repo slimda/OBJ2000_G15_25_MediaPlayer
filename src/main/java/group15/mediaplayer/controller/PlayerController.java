@@ -115,7 +115,7 @@ public class PlayerController {
     @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
-        if (mediaPlayer != null) mediaPlayer.stop();
+        StopButtonController.handle();
     }
 
     @FXML

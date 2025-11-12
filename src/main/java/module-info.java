@@ -4,6 +4,7 @@ module group15usn.mediaplayer {
     requires javafx.fxml;
     requires java.desktop;
     requires javafx.media;
+    requires javafx.base;
 
     exports group15.mediaplayer.app to javafx.graphics;
     exports group15.mediaplayer.config to javafx.graphics;
