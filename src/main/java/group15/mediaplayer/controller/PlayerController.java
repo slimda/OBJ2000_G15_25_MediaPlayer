@@ -18,6 +18,8 @@ import javafx.scene.media.MediaPlayer;
 import group15.mediaplayer.model.Metadata;
 import group15.mediaplayer.service.MetadataService;
 import group15.mediaplayer.controller.actions.*;
+import group15.mediaplayer.service.PlaybackService;
+import group15.mediaplayer.model.Track;
 
 
 public class PlayerController {
@@ -40,65 +42,92 @@ public class PlayerController {
     public static Media media;
     public static MediaPlayer mediaPlayer;
 
+    private final PlaybackService playbackService = new PlaybackService();
+
     @FXML
     public void initialize() {
         try {
-            // Initialiser Media og MediaPlayer
-            media = new Media(FileService.getMediaUrl("Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp3"));
-            mediaPlayer = new MediaPlayer(media);
+            // Load audio files into playlist
+            playbackService.loadAudioFolder();
 
-            // Hent URL til en lydfil og opprett et Media-objekt for metadata
-            String mediaUrl = FileService.getMediaUrl("sample.mp3");
-            Media sampleMedia = new Media(mediaUrl);
+            // Create a MediaPlayer for the first (current) track
+            mediaPlayer = playbackService.createMediaPlayerForCurrent();
 
-            // Hent metadata når MediaPlayer er klar
-            Metadata metadata = MetadataService.extractMetadata(sampleMedia, mediaPlayer);
+            if (mediaPlayer != null) {
+                mediaPlayer.setOnReady(() -> {
+                    Track t = playbackService.getPlaylist().current();
+                    if (t != null) {
+                        playerMeta.setText("Spilles nå: " + t.getTitle());
+                    }
+                });
 
-            // Lytt til statusendringer i MediaPlayer
-            mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue == MediaPlayer.Status.READY) {
-                    // Oppdater UI med metadata
-                    playerMeta.setText("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
-                    System.out.println("Spilles nå: " + metadata.getTitle() + " av " + metadata.getArtist());
-                }
-            });
+                // Lytt til statusendringer i MediaPlayer
+                mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue == MediaPlayer.Status.READY) {
+                        Track t = playbackService.getPlaylist().current();
+                        if (t != null) {
+                            playerMeta.setText("Spilles nå: " + t.getTitle());
+                        }
+                    }
+                });
 
-            // Konfigurer volum-slider
-            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+                // Konfigurer volum-slider
+                VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+            } else {
+                playerMeta.setText("Fant ingen lydfiler i audio-mappen.");
+            }
 
         } catch (Exception e) {
             // Håndter feil
-            playerMeta.setText("Kunne ikke laste inn lydfilen.");
+            playerMeta.setText("Kunne ikke laste inn lydfilene.");
             e.printStackTrace();
         }
     }
 
     @FXML
     public void handlePreviousAction(ActionEvent e) {
-        PreviousButtonController.handle();
+        Track t = playbackService.getPlaylist().previous();
+        if (t != null) {
+            if (mediaPlayer != null) mediaPlayer.stop();
+            mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+            mediaPlayer.play();
+            playerMeta.setText("Spilles nå: " + t.getTitle());
+            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+        }
     }
 
     @FXML
     public void handlePlayAction(ActionEvent e) {
-        PlayButtonController.handle();
+        if (mediaPlayer == null) {
+            mediaPlayer = playbackService.createMediaPlayerForCurrent();
+            if (mediaPlayer == null) return;
+            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+        }
+        mediaPlayer.play();
     }
 
     @FXML private Button pauseButton;
     @FXML
     public void handlePauseAction(ActionEvent e) {
         PauseButtonController.handlePause();
-
     }
 
     @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
-        StopButtonController.handle();
+        if (mediaPlayer != null) mediaPlayer.stop();
     }
 
     @FXML
     public void handleNextAction(ActionEvent e) {
-        NextButtonController.handle();
+        Track t = playbackService.getPlaylist().next();
+        if (t != null) {
+            if (mediaPlayer != null) mediaPlayer.stop();
+            mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+            mediaPlayer.play();
+            playerMeta.setText("Spilles nå: " + t.getTitle());
+            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+        }
     }
 
     @FXML
