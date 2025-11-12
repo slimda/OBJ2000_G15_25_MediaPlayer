@@ -57,7 +57,7 @@ public class PlayerController {
                 mediaPlayer.setOnReady(() -> {
                     Track t = playbackService.getPlaylist().current();
                     if (t != null) {
-                        playerMeta.setText("Spilles nå: " + t.getTitle());
+                        playerMeta.setText(" " + t.getTitle());
                     }
                 });
 
@@ -66,7 +66,7 @@ public class PlayerController {
                     if (newValue == MediaPlayer.Status.READY) {
                         Track t = playbackService.getPlaylist().current();
                         if (t != null) {
-                            playerMeta.setText("Spilles nå: " + t.getTitle());
+                            playerMeta.setText(" " + t.getTitle());
                         }
                     }
                 });
@@ -91,19 +91,14 @@ public class PlayerController {
             if (mediaPlayer != null) mediaPlayer.stop();
             mediaPlayer = playbackService.createMediaPlayerForTrack(t);
             mediaPlayer.play();
-            playerMeta.setText("Spilles nå: " + t.getTitle());
+            playerMeta.setText(" " + t.getTitle());
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
         }
     }
 
     @FXML
     public void handlePlayAction(ActionEvent e) {
-        if (mediaPlayer == null) {
-            mediaPlayer = playbackService.createMediaPlayerForCurrent();
-            if (mediaPlayer == null) return;
-            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-        }
-        mediaPlayer.play();
+      PlayButtonController.handle();
     }
 
     @FXML private Button pauseButton;
@@ -115,7 +110,7 @@ public class PlayerController {
     @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
-        if (mediaPlayer != null) mediaPlayer.stop();
+        StopButtonController.handle();
     }
 
     @FXML
@@ -125,7 +120,7 @@ public class PlayerController {
             if (mediaPlayer != null) mediaPlayer.stop();
             mediaPlayer = playbackService.createMediaPlayerForTrack(t);
             mediaPlayer.play();
-            playerMeta.setText("Spilles nå: " + t.getTitle());
+            playerMeta.setText(" " + t.getTitle());
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
         }
     }
@@ -138,12 +133,6 @@ public class PlayerController {
     @FXML
     public void handleRepeatAction(ActionEvent e) {
         RepeatButtonController.handle();
-    }
-
-    @FXML
-    public void handleEqualizerAction(ActionEvent e) {
-        // Use VolumeSliderController to handle equalizer toggle (mute toggle as placeholder)
-        VolumeSliderController.handleEqualizerAction();
     }
 
 }

@@ -10,3 +10,11 @@ public class PlayButtonController {
     }
 }
 
+/*if (mediaPlayer == null) {
+mediaPlayer = playbackService.createMediaPlayerForCurrent();
+            if (mediaPlayer == null) return;
+        VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+        }
+                mediaPlayer.play();
+
+ */
