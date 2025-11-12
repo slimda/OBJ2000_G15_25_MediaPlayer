@@ -90,9 +90,11 @@ public class PlayerController {
 
     @FXML
     public void initialize() {
-        if (playlistView != null) {
-            PlaylistController.setup(playlistView);
-        }
+        PlaylistController.setup(playlistView);
+
+        playlistView.setOnMouseClicked(e -> {
+            playerMeta.setText("Playing: " + playlistView.getSelectionModel().getSelectedItem());
+        });
     }
 
 }
