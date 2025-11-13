@@ -1,4 +1,4 @@
-package group15.mediaplayer.controller.mediaplayer.controller;
+package group15.mediaplayer.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
@@ -15,19 +15,19 @@ import javafx.util.Duration;
 
 public class ProgressSliderController {
 
-    private final Media media;
-    private final MediaPlayer mediaPlayer;
-    private final Slider progressSlider;
+    @FXML
+    private Slider progressSlider;
 
-    public ProgressSliderController(Media media, MediaPlayer mediaPlayer, Slider progressSlider) {
+    private Media media;
+    private MediaPlayer mediaPlayer;
+
+    public void initializeProgress(Media media, MediaPlayer mediaPlayer) {
         this.media = media;
         this.mediaPlayer = mediaPlayer;
-        this.progressSlider = progressSlider;
         setupSlider();
     }
-    private void setupSlider() {
 
-        // Når mediaen er klar, sett slider til maksverdi
+    private void setupSlider() {
         mediaPlayer.setOnReady(() -> {
             progressSlider.setMax(media.getDuration().toSeconds());
         });
@@ -53,17 +53,3 @@ public class ProgressSliderController {
 
     }
 }
-
-/*
- * Dette legges til i PlayerController for å koble til ProgressSliderController
- */
-
- private ProgressSliderController progressSliderController;
-
-
- @FXML
- private void initialize() {
-    //Oppretter og kobler til slider-kontrolleren
-    progressController = new ProgressSliderController(media,mediaPlayer, progressSlider);
-
- }
