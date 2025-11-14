@@ -13,15 +13,15 @@
         <BorderPane>
             <left>
                 <TextArea fx:id="playerDisplay"
-                          promptText="No song playing..."
                           prefRowCount="2"
-                          prefColumnCount="10" />
+                          prefColumnCount="10"
+                          editable="false" />
             </left>
             <right>
                 <BorderPane>
                     <top>
                         <TextField fx:id="playerMeta"
-                                   promptText="No song playing..." />
+                                   editable="false" />
                     </top>
                     <left>
                         <Slider fx:id="volumeSlider" />
