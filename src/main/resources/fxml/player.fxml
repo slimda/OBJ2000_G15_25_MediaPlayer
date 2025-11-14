@@ -5,17 +5,23 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Button?>
 
+
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="group15.mediaplayer.controller.PlayerController">
     <top>
         <BorderPane>
             <left>
-                <TextArea fx:id="playerDisplay"
-                          prefRowCount="2"
-                          prefColumnCount="10"
-                          editable="false" />
+                <VBox spacing="5">
+
+                    <TextField fx:id="timeField" prefWidth="70" text="00:00" editable="false"/>
+                    <TextArea fx:id="playerDisplay"
+                              prefRowCount="2"
+                              prefColumnCount="10"
+                              editable="false" />
+                </VBox>
             </left>
             <right>
                 <BorderPane>
@@ -32,6 +38,7 @@
                                     text="EQ"/>
                             <Button fx:id="playlistButton"
                                     text="PL"/>
+
                         </HBox>
                     </right>
                 </BorderPane>
@@ -75,4 +82,5 @@
             </right>
         </BorderPane>
     </bottom>
+
 </BorderPane>

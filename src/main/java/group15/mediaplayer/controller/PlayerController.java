@@ -20,6 +20,9 @@ import group15.mediaplayer.service.MetadataService;
 import group15.mediaplayer.controller.actions.*;
 import group15.mediaplayer.service.PlaybackService;
 import group15.mediaplayer.model.Track;
+import javafx.fxml.Initializable;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
 public class PlayerController {
@@ -52,7 +55,7 @@ public class PlayerController {
 
             // Create a MediaPlayer for the first (current) track
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
-
+            initMediaPlayer(mediaPlayer);
             if (mediaPlayer != null) {
                 mediaPlayer.setOnReady(() -> {
                     Track t = playbackService.getPlaylist().current();
@@ -90,6 +93,8 @@ public class PlayerController {
         if (t != null) {
             if (mediaPlayer != null) mediaPlayer.stop();
             mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+            //kaller på initmediaplayer får å telle tid
+            initMediaPlayer(mediaPlayer);
             mediaPlayer.play();
             playerMeta.setText("Spilles nå: " + t.getTitle());
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
@@ -124,6 +129,8 @@ public class PlayerController {
         if (t != null) {
             if (mediaPlayer != null) mediaPlayer.stop();
             mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+            // Kall initMediaPlayer her
+            initMediaPlayer(mediaPlayer);
             mediaPlayer.play();
             playerMeta.setText("Spilles nå: " + t.getTitle());
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
@@ -144,6 +151,26 @@ public class PlayerController {
     public void handleEqualizerAction(ActionEvent e) {
         // Use VolumeSliderController to handle equalizer toggle (mute toggle as placeholder)
         VolumeSliderController.handleEqualizerAction();
+    }
+    @FXML
+    private TextField timeField;
+
+    @FXML
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Når en ny sang lastes og mediaPlayer opprettes
+    }
+
+    //teller tiden på sangen
+    public void initMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer; // bruk instansvariabel
+
+        mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
+            int seconds = (int) newTime.toSeconds();
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            timeField.setText(String.format("%02d:%02d", minutes, seconds));
+        });
     }
 
 }
