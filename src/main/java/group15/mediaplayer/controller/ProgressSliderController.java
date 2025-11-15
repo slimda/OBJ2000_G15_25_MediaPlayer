@@ -60,9 +60,21 @@ public class ProgressSliderController {
             }
         });
 
-        // når du slipper slideren
-        slider.setOnMouseReleased(e ->
-            player.seek(Duration.seconds(slider.getValue()))
-        );
-    }
+    //metode for å klikke på slideren til ny posisjon 
+    slider.setOnMousePressed(e -> {
+    double value = (e.getX() / slider.getWidth()) * slider.getMax();
+    slider.setValue(value);
+    player.seek(Duration.seconds(value));
+});
+    //metode for å dra på slideren til ny posisjon
+    slider.setOnMouseDragged(e -> {
+    double value = (e.getX() / slider.getWidth()) * slider.getMax();
+    slider.setValue(value);
+});
+    //metode for å slippe musa på slideren til en ny posisjon
+    slider.setOnMouseReleased(e -> {
+    double value = slider.getValue();
+    player.seek(Duration.seconds(value));
+});
+}
 }
