@@ -16,6 +16,7 @@
             <left>
                 <VBox spacing="5">
                     <TextArea fx:id="playerDisplay"
+                              onMouseClicked="#handlePlayerDisplayClick"
                               prefRowCount="2"
                               prefColumnCount="10"
                               editable="false" />

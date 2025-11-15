@@ -6,6 +6,7 @@
 
 package group15.mediaplayer.controller;
 
+import group15.mediaplayer.utility.TimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,52 +25,65 @@ public class PlayerController {
     private final PlaybackService playbackService = new PlaybackService();
     public static Media media;
     public static MediaPlayer mediaPlayer;
+    private boolean showRemaining = false;
 
     @FXML
     public void initialize() {
         try {
-            // Load audio files into playlist
             playbackService.loadAudioFolder();
-
-            // Create a MediaPlayer for the first (current) track
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
-            initMediaPlayer(mediaPlayer);
 
-          ProgressSliderController.setup(progressSlider, mediaPlayer);
-
-            if (mediaPlayer != null) {
-                mediaPlayer.setOnReady(() -> {
-                    Track t = playbackService.getPlaylist().current();
-                    if (t != null) {
-                        playerMeta.setText("Spilles nå: " + t.getTitle());
-                    }
-                });
-
-                // Lytt til statusendringer i MediaPlayer
-                mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue == MediaPlayer.Status.READY) {
-                        Track t = playbackService.getPlaylist().current();
-                        if (t != null) {
-                            playerMeta.setText("Spilles nå: " + t.getTitle());
-                        }
-                    }
-                });
-
-                // Konfigurer volum-slider
-                VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-            } else {
-                playerMeta.setText("Fant ingen lydfiler i audio-mappen.");
+            if (mediaPlayer == null) {
+                playerMeta.setText("No files found");
+                return;
             }
 
+            setupMediaPlayer(mediaPlayer);
+            configureUI(mediaPlayer);
+
         } catch (Exception e) {
-            // Håndter feil
-            playerMeta.setText("Kunne ikke laste inn lydfilene.");
+            playerMeta.setText("Could not read files");
             e.printStackTrace();
         }
     }
-    @FXML private TextField playerMeta;
+
+    private void setupMediaPlayer(MediaPlayer mp) {
+        initMediaPlayer(mp);
+        mp.setOnReady(() -> updateTrackMeta(playbackService.getPlaylist().current()));
+        mp.setOnEndOfMedia(() -> switchTrack(playbackService.getPlaylist().next()));
+    }
+
+    private void configureUI(MediaPlayer mp) {
+        VolumeSliderController.configureVolumeSlider(volumeSlider, mp);
+        ProgressSliderController.setup(progressSlider, mp);
+    }
+
+    private void switchTrack(Track t) {
+        if (t == null) return;
+
+        if (mediaPlayer != null) mediaPlayer.stop();
+        mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+
+        setupMediaPlayer(mediaPlayer);
+        configureUI(mediaPlayer);
+
+        mediaPlayer.play();
+        updateTrackMeta(t);
+    }
+
+    private void updateTrackMeta(Track t) {
+        if (t != null) {
+            playerMeta.setText(t.getTitle());
+        }
+    }
 
     @FXML private TextArea playerDisplay;
+    @FXML
+    private void handlePlayerDisplayClick() {
+        showRemaining = !showRemaining;
+    }
+
+    @FXML private TextField playerMeta;
     @FXML private Slider volumeSlider;
 
     @FXML private Button equalizerButton;
@@ -79,17 +93,7 @@ public class PlayerController {
     @FXML private Button previousButton;
     @FXML
     public void handlePreviousAction(ActionEvent e) {
-        Track t = playbackService.getPlaylist().previous();
-        if (t != null) {
-            if (mediaPlayer != null) mediaPlayer.stop();
-            mediaPlayer = playbackService.createMediaPlayerForTrack(t);
-            //kaller på initmediaplayer får å telle tid
-            initMediaPlayer(mediaPlayer);
-            ProgressSliderController.setup(progressSlider, mediaPlayer);
-            mediaPlayer.play();
-            playerMeta.setText("Spilles nå: " + t.getTitle());
-            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-        }
+        switchTrack(playbackService.getPlaylist().previous());
     }
 
     @FXML private Button playButton;
@@ -97,9 +101,10 @@ public class PlayerController {
     public void handlePlayAction(ActionEvent e) {
         if (mediaPlayer == null) {
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
-            ProgressSliderController.setup(progressSlider, mediaPlayer);
             if (mediaPlayer == null) return;
-            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
+
+            setupMediaPlayer(mediaPlayer);
+            configureUI(mediaPlayer);
         }
         mediaPlayer.play();
     }
@@ -123,40 +128,33 @@ public class PlayerController {
     @FXML private Button nextButton;
     @FXML
     public void handleNextAction(ActionEvent e) {
-        Track t = playbackService.getPlaylist().next();
-        if (t != null) {
-            if (mediaPlayer != null) mediaPlayer.stop();
-            mediaPlayer = playbackService.createMediaPlayerForTrack(t);
-            // Kall initMediaPlayer her
-            initMediaPlayer(mediaPlayer);
-            ProgressSliderController.setup(progressSlider, mediaPlayer);
-            mediaPlayer.play();
-            playerMeta.setText("Spilles nå: " + t.getTitle());
-            VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
-        }
+        switchTrack(playbackService.getPlaylist().next());
     }
 
     @FXML private Button shuffleButton;
     @FXML
     public void handleShuffleAction(ActionEvent e) {
-        System.out.println("Shuffle function is not implemented");
+        playerDisplay.setText("Shuffle not implemented");
     }
 
     @FXML private Button repeatButton;
     @FXML
     public void handleRepeatAction(ActionEvent e) {
-        System.out.println("Repeat function is not implemented");
+        playerDisplay.setText("Repeat not implemented");
     }
 
     public void initMediaPlayer(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer; // bruk instansvariabel
+        PlayerController.mediaPlayer = mediaPlayer; // bruk instansvariabel
 
         mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
-            int seconds = (int) newTime.toSeconds();
-            int minutes = seconds / 60;
-            seconds = seconds % 60;
+            int elapsedSeconds = (int) newTime.toSeconds();
+            int totalSeconds = (int) mediaPlayer.getTotalDuration().toSeconds();
 
-            playerDisplay.setText(String.format("%02d:%02d", minutes, seconds));
+            String displayText = showRemaining
+                    ? "-" + TimeFormatter.formatRemaining(elapsedSeconds, totalSeconds)
+                    : TimeFormatter.formatSeconds(elapsedSeconds);
+
+            playerDisplay.setText(displayText);
         });
     }
 
