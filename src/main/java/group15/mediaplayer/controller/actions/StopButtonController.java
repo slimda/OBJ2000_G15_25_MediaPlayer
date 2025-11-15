@@ -2,7 +2,7 @@ package group15.mediaplayer.controller.actions;
 
 import group15.mediaplayer.controller.PlayerController;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
+//import javafx.util.Duration;
 
 public class StopButtonController {
     public static void handle() {

@@ -4,7 +4,7 @@
  */
 
 package group15.mediaplayer.app;
-import group15.mediaplayer.controller.*;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

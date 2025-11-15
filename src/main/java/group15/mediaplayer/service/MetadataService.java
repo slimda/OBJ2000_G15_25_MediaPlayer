@@ -24,12 +24,8 @@ public class MetadataService {
 
                 // Sjekk hvilken type metadata som er tilgjengelig
                 switch (key.toLowerCase()) {
-                    case "title":
-                        metadata.setTitle(value.toString());
-                        break;
-                    case "artist":
-                        metadata.setArtist(value.toString());
-                        break;
+                    case "title" -> metadata.setTitle(value.toString());
+                    case "artist" -> metadata.setArtist(value.toString());
                 }
             }
         });

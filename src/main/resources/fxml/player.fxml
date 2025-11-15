@@ -39,7 +39,8 @@
         </BorderPane>
     </top>
     <center>
-        <Slider fx:id="progressSlider" />
+
+    <Slider fx:id="progressSlider"/>
     </center>
     <bottom>
         <BorderPane>
