@@ -43,6 +43,7 @@ public class PlayerController {
 
         } catch (Exception e) {
             playerMeta.setText("Could not read files");
+            System.err.println("Could not read files: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -51,6 +52,21 @@ public class PlayerController {
         initMediaPlayer(mp);
         mp.setOnReady(() -> updateTrackMeta(playbackService.getPlaylist().current()));
         mp.setOnEndOfMedia(() -> switchTrack(playbackService.getPlaylist().next()));
+    }
+
+    public void initMediaPlayer(MediaPlayer mediaPlayer) {
+        PlayerController.mediaPlayer = mediaPlayer; // bruk instansvariabel
+
+        mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
+            int elapsedSeconds = (int) newTime.toSeconds();
+            int totalSeconds = (int) mediaPlayer.getTotalDuration().toSeconds();
+
+            String displayText = showRemaining
+                    ? "-" + TimeFormatter.formatRemaining(elapsedSeconds, totalSeconds)
+                    : TimeFormatter.formatSeconds(elapsedSeconds);
+
+            playerDisplay.setText(displayText);
+        });
     }
 
     private void configureUI(MediaPlayer mp) {
@@ -76,27 +92,27 @@ public class PlayerController {
             playerMeta.setText(t.getTitle());
         }
     }
-
     @FXML private TextArea playerDisplay;
+
     @FXML
     private void handlePlayerDisplayClick() {
         showRemaining = !showRemaining;
     }
-
     @FXML private TextField playerMeta;
-    @FXML private Slider volumeSlider;
 
+    @FXML private Slider volumeSlider;
     @FXML private Button equalizerButton;
     @FXML private Button playlistButton;
-    @FXML private Slider progressSlider;
 
+    @FXML private Slider progressSlider;
     @FXML private Button previousButton;
+
     @FXML
     public void handlePreviousAction(ActionEvent e) {
         switchTrack(playbackService.getPlaylist().previous());
     }
-
     @FXML private Button playButton;
+
     @FXML
     public void handlePlayAction(ActionEvent e) {
         if (mediaPlayer == null) {
@@ -108,54 +124,39 @@ public class PlayerController {
         }
         mediaPlayer.play();
     }
-
     @FXML private Button pauseButton;
+
     @FXML
     public void handlePauseAction(ActionEvent e) {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
     }
-
     @FXML private Button stopButton;
+
     @FXML
     public void handleStopAction(ActionEvent e) {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
     }
-
     @FXML private Button nextButton;
+
     @FXML
     public void handleNextAction(ActionEvent e) {
         switchTrack(playbackService.getPlaylist().next());
     }
-
     @FXML private Button shuffleButton;
+
     @FXML
     public void handleShuffleAction(ActionEvent e) {
         playerDisplay.setText("Shuffle not implemented");
     }
-
     @FXML private Button repeatButton;
+
     @FXML
     public void handleRepeatAction(ActionEvent e) {
         playerDisplay.setText("Repeat not implemented");
-    }
-
-    public void initMediaPlayer(MediaPlayer mediaPlayer) {
-        PlayerController.mediaPlayer = mediaPlayer; // bruk instansvariabel
-
-        mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
-            int elapsedSeconds = (int) newTime.toSeconds();
-            int totalSeconds = (int) mediaPlayer.getTotalDuration().toSeconds();
-
-            String displayText = showRemaining
-                    ? "-" + TimeFormatter.formatRemaining(elapsedSeconds, totalSeconds)
-                    : TimeFormatter.formatSeconds(elapsedSeconds);
-
-            playerDisplay.setText(displayText);
-        });
     }
 
 }
