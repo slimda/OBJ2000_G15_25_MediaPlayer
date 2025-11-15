@@ -60,8 +60,7 @@ public class PlayerController {
             // Create a MediaPlayer for the first (current) track
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
             
-            //setter opp progressSlideren 
-            ProgressSliderController.setup(progressSlider, mediaPlayer);
+          ProgressSliderController.setup(progressSlider, mediaPlayer);
 
             if (mediaPlayer != null) {
                 mediaPlayer.setOnReady(() -> {
@@ -102,6 +101,7 @@ public class PlayerController {
         if (t != null) {
             if (mediaPlayer != null) mediaPlayer.stop();
             mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+            ProgressSliderController.setup(progressSlider, mediaPlayer);
             mediaPlayer.play();
             playerMeta.setText("Spilles nå: " + t.getTitle());
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
@@ -112,6 +112,7 @@ public class PlayerController {
     public void handlePlayAction(ActionEvent e) {
         if (mediaPlayer == null) {
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
+            ProgressSliderController.setup(progressSlider, mediaPlayer);
             if (mediaPlayer == null) return;
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
         }
@@ -136,6 +137,7 @@ public class PlayerController {
         if (t != null) {
             if (mediaPlayer != null) mediaPlayer.stop();
             mediaPlayer = playbackService.createMediaPlayerForTrack(t);
+            ProgressSliderController.setup(progressSlider, mediaPlayer);
             mediaPlayer.play();
             playerMeta.setText("Spilles nå: " + t.getTitle());
             VolumeSliderController.configureVolumeSlider(volumeSlider, mediaPlayer);
