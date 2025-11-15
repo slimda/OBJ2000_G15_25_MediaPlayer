@@ -15,8 +15,6 @@
         <BorderPane>
             <left>
                 <VBox spacing="5">
-
-                    <TextField fx:id="timeField" prefWidth="70" text="00:00" editable="false"/>
                     <TextArea fx:id="playerDisplay"
                               prefRowCount="2"
                               prefColumnCount="10"

@@ -6,7 +6,6 @@
 
 package group15.mediaplayer.controller;
 
-import group15.mediaplayer.service.FileService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,37 +14,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import group15.mediaplayer.model.Metadata;
-import group15.mediaplayer.service.MetadataService;
 import group15.mediaplayer.controller.actions.*;
 import group15.mediaplayer.service.PlaybackService;
 import group15.mediaplayer.model.Track;
-import javafx.fxml.Initializable;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 
 public class PlayerController {
 
-    @FXML private Button equalizerButton;
-    @FXML private Button playlistButton;
-    @FXML private Slider progressSlider;
-    @FXML private Button previousButton;
-    @FXML private Button playButton;
-    @FXML private Button nextButton;
-    @FXML private Button shuffleButton;
-    @FXML private Button repeatButton;
-
-    // koble til sånn kan se hvilken sang som spiller
-    @FXML private TextField playerMeta;
-
-    @FXML private TextArea playerDisplay;
-    @FXML private Slider volumeSlider;
-
+    private final PlaybackService playbackService = new PlaybackService();
     public static Media media;
     public static MediaPlayer mediaPlayer;
-
-    private final PlaybackService playbackService = new PlaybackService();
 
     @FXML
     public void initialize() {
@@ -86,7 +63,16 @@ public class PlayerController {
             e.printStackTrace();
         }
     }
+    @FXML private TextField playerMeta;
 
+    @FXML private TextArea playerDisplay;
+    @FXML private Slider volumeSlider;
+
+    @FXML private Button equalizerButton;
+    @FXML private Button playlistButton;
+    @FXML private Slider progressSlider;
+
+    @FXML private Button previousButton;
     @FXML
     public void handlePreviousAction(ActionEvent e) {
         Track t = playbackService.getPlaylist().previous();
@@ -101,6 +87,7 @@ public class PlayerController {
         }
     }
 
+    @FXML private Button playButton;
     @FXML
     public void handlePlayAction(ActionEvent e) {
         if (mediaPlayer == null) {
@@ -114,15 +101,20 @@ public class PlayerController {
     @FXML private Button pauseButton;
     @FXML
     public void handlePauseAction(ActionEvent e) {
-        PauseButtonController.handlePause();
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
     }
 
     @FXML private Button stopButton;
     @FXML
     public void handleStopAction(ActionEvent e) {
-        StopButtonController.handle();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 
+    @FXML private Button nextButton;
     @FXML
     public void handleNextAction(ActionEvent e) {
         Track t = playbackService.getPlaylist().next();
@@ -137,30 +129,18 @@ public class PlayerController {
         }
     }
 
+    @FXML private Button shuffleButton;
     @FXML
     public void handleShuffleAction(ActionEvent e) {
-        ShuffleButtonController.handle();
+        System.out.println("Shuffle function is not implemented");
     }
 
+    @FXML private Button repeatButton;
     @FXML
     public void handleRepeatAction(ActionEvent e) {
-        RepeatButtonController.handle();
+        System.out.println("Repeat function is not implemented");
     }
 
-    @FXML
-    public void handleEqualizerAction(ActionEvent e) {
-        // Use VolumeSliderController to handle equalizer toggle (mute toggle as placeholder)
-        VolumeSliderController.handleEqualizerAction();
-    }
-    @FXML
-    private TextField timeField;
-
-    @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Når en ny sang lastes og mediaPlayer opprettes
-    }
-
-    //teller tiden på sangen
     public void initMediaPlayer(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer; // bruk instansvariabel
 
@@ -169,8 +149,7 @@ public class PlayerController {
             int minutes = seconds / 60;
             seconds = seconds % 60;
 
-            timeField.setText(String.format("%02d:%02d", minutes, seconds));
+            playerDisplay.setText(String.format("%02d:%02d", minutes, seconds));
         });
     }
-
 }
