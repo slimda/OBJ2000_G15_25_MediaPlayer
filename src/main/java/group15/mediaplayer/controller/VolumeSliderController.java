@@ -1,8 +1,7 @@
-package group15.mediaplayer.controller.actions;
+package group15.mediaplayer.controller;
 
 import javafx.scene.control.Slider;
 import javafx.scene.media.MediaPlayer;
-import group15.mediaplayer.controller.PlayerController;
 
 /**
  * Purpose: Manages a volume slider UI component.

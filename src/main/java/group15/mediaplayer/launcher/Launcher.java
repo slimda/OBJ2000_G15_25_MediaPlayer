@@ -1,8 +1,6 @@
 /**
  * Purpose: Contains the public static void main(String[] args) method.
- *
  * Role: Starts the JavaFX application by calling Application.launch().
- *
  * Why separate: Avoids module system quirks and keeps bootstrapping logic clean.
  */
 

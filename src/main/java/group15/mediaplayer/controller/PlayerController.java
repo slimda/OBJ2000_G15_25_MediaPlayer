@@ -15,7 +15,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import group15.mediaplayer.controller.actions.*;
 import group15.mediaplayer.service.PlaybackService;
 import group15.mediaplayer.model.Track;
 

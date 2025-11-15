@@ -1,6 +1,5 @@
 /**
  * Purpose: Represents a collection of Track objects.
- *
  * Role: Supports adding/removing tracks, saving/loading playlists.
  */
 
