@@ -6,7 +6,7 @@
 
 package group15.mediaplayer.controller;
 
-//import group15.mediaplayer.service.FileService;
+import group15.mediaplayer.service.FileService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -38,7 +38,7 @@ public class PlayerController {
     // koble til sånn kan se hvilken sang som spiller
     @FXML private TextField playerMeta;
 
-    //@FXML private TextArea playerDisplay;
+    @FXML private TextArea playerDisplay;
     @FXML private Slider volumeSlider;
 
     @FXML private Slider progressSlider;
@@ -59,6 +59,8 @@ public class PlayerController {
 
             // Create a MediaPlayer for the first (current) track
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
+            
+            //setter opp progressSlideren 
             ProgressSliderController.setup(progressSlider, mediaPlayer);
 
             if (mediaPlayer != null) {
