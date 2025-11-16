@@ -11,15 +11,23 @@ package group15.mediaplayer.controller;
 import group15.mediaplayer.service.FileService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 public class PlayerController {
+    public static PlayerController instance;
+
+    public PlayerController() {
+        instance = this;
+    }
 
     static Media media = new Media(FileService.getMediaUrl());
     static MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -30,8 +38,6 @@ public class PlayerController {
     private TextField playerMeta;
     @FXML
     private Slider volumeSlider;
-    @FXML
-    private ListView playlistView;
     @FXML
     private Button equalizerButton;
     @FXML
@@ -74,6 +80,19 @@ public class PlayerController {
     }
 
     @FXML
+    public void handlePlaylistAction(ActionEvent e) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/playlist.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Playlist");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
     public void handleNextAction(ActionEvent e) {
         // NextButtonController.handleNext();
     }
@@ -88,13 +107,26 @@ public class PlayerController {
         // RepeatButtonController.handleRepeat();
     }
 
-    @FXML
-    public void initialize() {
-        PlaylistController.setup(playlistView);
+    public void setSongFromPlaylist(String song) {
+        playerMeta.setText("Playing: " + song);
 
-        playlistView.setOnMouseClicked(e -> {
-            playerMeta.setText("Playing: " + playlistView.getSelectionModel().getSelectedItem());
-        });
+    }
+
+    public void playSong(String fileName) {
+
+        var url = getClass().getResource("/audio/" + fileName);
+        if (url == null) {
+            System.out.println("Fant ikke fil: " + fileName);
+            return;
+        }
+
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+
+        mediaPlayer = new MediaPlayer(new Media(url.toExternalForm()));
+        mediaPlayer.play();
+
+        playerMeta.setText("Playing: " + fileName);
     }
 
 }

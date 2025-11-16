@@ -18,7 +18,7 @@ public class MediaPlayerApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/player.fxml"));
         stage.setScene(new Scene(root, 550, 232));
         stage.setTitle("Media Player");
-        stage.setResizable(false);
+        // stage.setResizable(false);
         stage.show();
     }
 }

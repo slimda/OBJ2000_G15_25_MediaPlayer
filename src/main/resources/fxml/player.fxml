@@ -15,8 +15,9 @@
     <top>
         <BorderPane>
             <left>
-    <ListView fx:id="playlistView" prefWidth="200" />
-    </left>
+    <TextArea fx:id="playerDisplay"
+              promptText="No song playing..." />
+</left>
             <right>
                 <BorderPane>
                     <top>
@@ -28,10 +29,15 @@
                     </left>
                     <right>
                         <HBox>
-                            <Button fx:id="equalizerButton"
-                                    text="EQ"/>
-                            <Button fx:id="playlistButton"
-                                    text="PL"/>
+                            <HBox spacing="10">
+    <Button fx:id="playlistButton"
+            text="PL"
+            onAction="#handlePlaylistAction"/>
+
+    <Button fx:id="equalizerButton"
+            text="EQ"/>
+</HBox>
+
                         </HBox>
                     </right>
                 </BorderPane>
