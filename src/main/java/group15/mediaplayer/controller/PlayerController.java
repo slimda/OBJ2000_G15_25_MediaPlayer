@@ -52,6 +52,8 @@ public class PlayerController {
         // koble MediaPlayer til UI
         setupMediaPlayer(mediaPlayer);
         configureUI(mediaPlayer);
+
+        updateTrackMeta(playbackService.getPlaylist().current());
     }
 
     private void setupMediaPlayer(MediaPlayer mp) {
