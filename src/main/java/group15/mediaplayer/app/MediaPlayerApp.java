@@ -1,6 +1,5 @@
-/**
+/*
  * Purpose: Subclass of javafx.application.Application.
- *
  * Role: Sets up the primary Stage, loads the main FXML layout, and initializes the UI.
  */
 
@@ -20,5 +19,5 @@ public class MediaPlayerApp extends Application {
         stage.setTitle("Media Player");
         // stage.setResizable(false);
         stage.show();
-    }
-}
+
+}}

@@ -4,39 +4,39 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
 
 
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="group15.mediaplayer.controller.PlayerController">
     <top>
         <BorderPane>
             <left>
-    <TextArea fx:id="playerDisplay"
-              promptText="No song playing..." />
-</left>
+                <VBox spacing="5">
+                    <TextArea fx:id="playerDisplay"
+                              onMouseClicked="#handlePlayerDisplayClick"
+                              prefRowCount="2"
+                              prefColumnCount="10"
+                              editable="false" />
+                </VBox>
+            </left>
             <right>
                 <BorderPane>
                     <top>
                         <TextField fx:id="playerMeta"
-                                   promptText="No song playing..." />
+                                   editable="false" />
                     </top>
                     <left>
                         <Slider fx:id="volumeSlider" />
                     </left>
                     <right>
                         <HBox>
-                            <HBox spacing="10">
-    <Button fx:id="playlistButton"
-            text="PL"
-            onAction="#handlePlaylistAction"/>
-
-    <Button fx:id="equalizerButton"
-            text="EQ"/>
-</HBox>
+                            <Button fx:id="equalizerButton"
+                                    text="EQ"/>
+                            <Button fx:id="playlistButton"
+                                    text="PL"/>
 
                         </HBox>
                     </right>
@@ -45,7 +45,8 @@
         </BorderPane>
     </top>
     <center>
-        <Slider fx:id="progressSlider" />
+
+    <Slider fx:id="progressSlider"/>
     </center>
     <bottom>
         <BorderPane>
@@ -81,4 +82,5 @@
             </right>
         </BorderPane>
     </bottom>
+
 </BorderPane>
