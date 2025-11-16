@@ -19,7 +19,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 import group15.mediaplayer.service.PlaybackService;
 import group15.mediaplayer.model.Track;
 
@@ -30,6 +29,8 @@ public class PlayerController {
     public static Media media;
     public static MediaPlayer mediaPlayer;
     private boolean showRemaining = false;
+    private Stage playlistStage;
+    private PlaylistController playlistController;
 
     @FXML
     public void initialize() {
@@ -79,12 +80,11 @@ public class PlayerController {
         ProgressSliderController.setup(progressSlider, mp);
     }
 
-    private void switchTrack(Track t) {
+    void switchTrack(Track t) {
         if (t == null)
             return;
 
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (mediaPlayer != null) mediaPlayer.stop();
         mediaPlayer = playbackService.createMediaPlayerForTrack(t);
 
         setupMediaPlayer(mediaPlayer);
@@ -92,6 +92,10 @@ public class PlayerController {
 
         mediaPlayer.play();
         updateTrackMeta(t);
+
+        if (playlistController != null) {
+            playlistController.highlightCurrentTrack();
+        }
     }
 
     private void updateTrackMeta(Track t) {
@@ -121,7 +125,31 @@ public class PlayerController {
     @FXML
     public void handlePlaylistAction(ActionEvent e) {
         try {
-            new Stage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/playlist.fxml"))));
+            if (playlistStage == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/playlist.fxml"));
+                Parent root = loader.load();
+
+                // Get the controller so you can pass data
+                playlistController = loader.getController();
+                playlistController.setPlaylist(playbackService.getPlaylist());
+
+                playlistStage = new Stage();
+                playlistStage.setTitle("Playlist");
+                playlistStage.setScene(new Scene(root));
+
+                playlistStage.setOnHidden(ev -> playlistStage = null);
+
+                playlistStage.show();
+            }
+            else {
+                if (playlistStage.isShowing()) {
+                    playlistStage.close();
+                    playlistStage = null;
+                }
+                else {
+                    playlistStage.show();
+                }
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -34,6 +34,13 @@ public class Playlist {
         return tracks.get(currentIndex);
     }
 
+    public void setCurrent(Track track) {
+        int index = tracks.indexOf(track);
+        if (index >= 0) {
+            currentIndex = index;
+        }
+    }
+
     public List<Track> getTracks() {
         return new ArrayList<>(tracks);
     }
@@ -50,4 +57,5 @@ public class Playlist {
         tracks.clear();
         currentIndex = -1;
     }
+
 }

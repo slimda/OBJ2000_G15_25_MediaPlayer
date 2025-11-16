@@ -10,7 +10,7 @@ import group15.mediaplayer.app.MediaPlayerApp;
 import javafx.application.Application;
 
 public class Launcher {
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Application.launch(MediaPlayerApp.class, args);
     }
 }
