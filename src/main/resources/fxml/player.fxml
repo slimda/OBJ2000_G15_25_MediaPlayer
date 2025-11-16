@@ -32,14 +32,19 @@
                         <Slider fx:id="volumeSlider" />
                     </left>
                     <right>
-                        <HBox>
-                            <Button fx:id="equalizerButton"
-                                    text="EQ"/>
-                            <Button fx:id="playlistButton"
-                                    text="PL"/>
+<HBox spacing="5">
+    <Button fx:id="playlistButton"
+            text="PL"
+            onAction="#handlePlaylistAction" />
+    <Button fx:id="shuffleButton"
+            text="SH"
+            onAction="#handleShuffleAction" />
+    <Button fx:id="repeatButton"
+            text="RP"
+            onAction="#handleRepeatAction" />
+</HBox>
+</right>
 
-                        </HBox>
-                    </right>
                 </BorderPane>
             </right>
         </BorderPane>
@@ -70,16 +75,12 @@
                 </HBox>
             </left>
             <right>
-                <HBox>
-                    <Button fx:id="shuffleButton"
-                            text="🔀"
-                            onAction="#handleShuffleAction"/>
-                    <Button fx:id="repeatButton"
-                            text="🔁"
-                            onAction="#handleRepeatAction"/>
-                            <!-- 🔂 -->
-                </HBox>
-            </right>
+    <HBox>
+        <Button fx:id="playlistButton" text="PL" onAction="#handlePlaylistAction"/>
+        <Button fx:id="shuffleButton" text="🔀" onAction="#handleShuffleAction"/>
+        <Button fx:id="repeatButton" text="🔁" onAction="#handleRepeatAction"/>
+    </HBox>
+</right>
         </BorderPane>
     </bottom>
 

@@ -9,17 +9,22 @@ package group15.mediaplayer.controller;
 import group15.mediaplayer.utility.TimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import group15.mediaplayer.service.PlaybackService;
 import group15.mediaplayer.model.Track;
 
-
 public class PlayerController {
+    public static PlayerController instance; // <- legg til denne
 
     private final PlaybackService playbackService = new PlaybackService();
     public static Media media;
@@ -28,23 +33,24 @@ public class PlayerController {
 
     @FXML
     public void initialize() {
-        try {
-            playbackService.loadAudioFolder();
-            mediaPlayer = playbackService.createMediaPlayerForCurrent();
+        // lagre "denne" så PlaylistController kan bruke den
+        instance = this;
 
-            if (mediaPlayer == null) {
-                playerMeta.setText("No files found");
-                return;
-            }
+        // last inn musikk fra audio-mappa
+        playbackService.loadAudioFolder();
 
-            setupMediaPlayer(mediaPlayer);
-            configureUI(mediaPlayer);
+        // lag en MediaPlayer for første spor
+        mediaPlayer = playbackService.createMediaPlayerForCurrent();
 
-        } catch (Exception e) {
-            playerMeta.setText("Could not read files");
-            System.err.println("Could not read files: " + e.getMessage());
-            e.printStackTrace();
+        // hvis vi ikke fant noen filer
+        if (mediaPlayer == null) {
+            playerMeta.setText("No files found");
+            return;
         }
+
+        // koble MediaPlayer til UI
+        setupMediaPlayer(mediaPlayer);
+        configureUI(mediaPlayer);
     }
 
     private void setupMediaPlayer(MediaPlayer mp) {
@@ -74,9 +80,11 @@ public class PlayerController {
     }
 
     private void switchTrack(Track t) {
-        if (t == null) return;
+        if (t == null)
+            return;
 
-        if (mediaPlayer != null) mediaPlayer.stop();
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
         mediaPlayer = playbackService.createMediaPlayerForTrack(t);
 
         setupMediaPlayer(mediaPlayer);
@@ -91,39 +99,62 @@ public class PlayerController {
             playerMeta.setText(t.getTitle());
         }
     }
-    @FXML private TextArea playerDisplay;
+
+    @FXML
+    private TextArea playerDisplay;
 
     @FXML
     private void handlePlayerDisplayClick() {
         showRemaining = !showRemaining;
     }
-    @FXML private TextField playerMeta;
 
-    @FXML private Slider volumeSlider;
-    @FXML private Button equalizerButton;
-    @FXML private Button playlistButton;
+    @FXML
+    private TextField playerMeta;
 
-    @FXML private Slider progressSlider;
-    @FXML private Button previousButton;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
+    private Button equalizerButton;
+    @FXML
+    private Button playlistButton;
+
+    @FXML
+    public void handlePlaylistAction(ActionEvent e) {
+        try {
+            new Stage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/playlist.fxml"))));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private Slider progressSlider;
+    @FXML
+    private Button previousButton;
 
     @FXML
     public void handlePreviousAction(ActionEvent e) {
         switchTrack(playbackService.getPlaylist().previous());
     }
-    @FXML private Button playButton;
+
+    @FXML
+    private Button playButton;
 
     @FXML
     public void handlePlayAction(ActionEvent e) {
         if (mediaPlayer == null) {
             mediaPlayer = playbackService.createMediaPlayerForCurrent();
-            if (mediaPlayer == null) return;
+            if (mediaPlayer == null)
+                return;
 
             setupMediaPlayer(mediaPlayer);
             configureUI(mediaPlayer);
         }
         mediaPlayer.play();
     }
-    @FXML private Button pauseButton;
+
+    @FXML
+    private Button pauseButton;
 
     @FXML
     public void handlePauseAction(ActionEvent e) {
@@ -131,7 +162,9 @@ public class PlayerController {
             mediaPlayer.pause();
         }
     }
-    @FXML private Button stopButton;
+
+    @FXML
+    private Button stopButton;
 
     @FXML
     public void handleStopAction(ActionEvent e) {
@@ -139,23 +172,56 @@ public class PlayerController {
             mediaPlayer.stop();
         }
     }
-    @FXML private Button nextButton;
+
+    @FXML
+    private Button nextButton;
 
     @FXML
     public void handleNextAction(ActionEvent e) {
         switchTrack(playbackService.getPlaylist().next());
     }
-    @FXML private Button shuffleButton;
+
+    @FXML
+    private Button shuffleButton;
 
     @FXML
     public void handleShuffleAction(ActionEvent e) {
         playerDisplay.setText("Shuffle not implemented");
     }
-    @FXML private Button repeatButton;
+
+    @FXML
+    private Button repeatButton;
 
     @FXML
     public void handleRepeatAction(ActionEvent e) {
         playerDisplay.setText("Repeat not implemented");
+    }
+
+    public void playSong(String fileName) {
+        // stopp gammel sang
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+
+        // finn fila i resources/audio
+        var url = getClass().getResource("/audio/" + fileName);
+        if (url == null) {
+            System.out.println("Fant ikke fil: " + fileName);
+            return;
+        }
+
+        // lag ny MediaPlayer
+        mediaPlayer = new MediaPlayer(new Media(url.toExternalForm()));
+
+        // koble til UI og start
+        setupMediaPlayer(mediaPlayer);
+        configureUI(mediaPlayer);
+        mediaPlayer.play();
+
+        // oppdater tekstfeltet
+        if (playerMeta != null) {
+            playerMeta.setText("Playing: " + fileName);
+        }
     }
 
 }

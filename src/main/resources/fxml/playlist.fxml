@@ -5,7 +5,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="group15.mediaplayer.controller.PlaylistController">
+            fx:controller="group15.mediaplayer.controller.PlayerController">
 
     <center>
         <ListView fx:id="playlistView"/>
